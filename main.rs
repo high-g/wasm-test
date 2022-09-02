@@ -1,3 +1,5 @@
+const PI:f32 = 3.14;
+
 fn main() {
   let arg = 1;
   println!("{}", arg);
@@ -7,4 +9,6 @@ fn main() {
 
   arg2 = 3;
   println!("{}", arg2);
+
+  println!("{}", PI);
 }
