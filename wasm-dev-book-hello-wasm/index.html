@@ -13,7 +13,17 @@
       }
 
       const wasm = './target/wasm32-unknown-unknown/release/wasm_dev_book_hello_wasm.wasm'
+
       const toUnit32 = (num) => num >>> 0
+
+      // const importObject = { imports: { imported_func: (arg) => console.log(arg) } }
+
+      WebAssembly.instantiateStreaming(fetch(wasm), imports).then((results) => {
+        console.log('results', results)
+        const { add, get_timestamp, rand } = results.instance.exports
+        console.log(add(1, 2))
+      })
+
       fetch(wasm)
         .then((response) => response.arrayBuffer())
         .then((bytes) => WebAssembly.instantiate(bytes, imports))
