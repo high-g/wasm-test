@@ -40,3 +40,18 @@ pub fn heavy_loop() -> u32 {
         }
     }
 }
+
+#[no_mangle]
+pub fn heavy_loop_rand() -> u32 {
+    let mut i = 0;
+    let mut return_array: [u32; 1000] = [0; 1000];
+
+    loop {
+        return_array[i] = rand();
+        i += 1;
+
+        if i == 1000 {
+            return return_array[1000];
+        }
+    }
+}
