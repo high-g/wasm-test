@@ -19,9 +19,12 @@
       // const importObject = { imports: { imported_func: (arg) => console.log(arg) } }
 
       WebAssembly.instantiateStreaming(fetch(wasm), imports).then((results) => {
-        console.log('results', results)
-        const { add, get_timestamp, rand } = results.instance.exports
-        console.log(add(1, 2))
+        console.log('---------- wasm loop 処理計測 ----------')
+        const startTime = performance.now()
+        const { heavy_loop } = results.instance.exports
+        heavy_loop()
+        const endTime = performance.now()
+        console.log('wasm 10億回ループの経過ミリ秒', endTime - startTime)
       })
 
       // fetch(wasm)
@@ -34,13 +37,13 @@
       //     console.log('rand', toUnit32(rand()))
       //   })
 
-      console.log('---------- js for 処理計測 ----------')
+      console.log('---------- js loop(for) 処理計測 ----------')
       const startTimeFor = performance.now()
       for (let i = 0; i < 100000000; i++) {}
       const endTimeFor = performance.now()
       console.log('js forでの1億回ループの経過ミリ秒', endTimeFor - startTimeFor)
 
-      console.log('---------- js while 処理計測 ----------')
+      console.log('---------- js loop(while) 処理計測 ----------')
       const startTimeWhile = performance.now()
       let i = 0
       while (i < 100000000) {

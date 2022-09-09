@@ -27,3 +27,12 @@ pub fn rand() -> u32 {
     let seed = 1;
     tinymt32::from_seed(param, seed).gen()
 }
+
+#[no_mangle]
+pub fn heavy_loop() {
+
+let _i: u64 = 0;
+  for _i in 0..10000000000 {
+    let _ = _i;
+  }
+}
