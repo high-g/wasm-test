@@ -24,19 +24,31 @@
         console.log(add(1, 2))
       })
 
-      fetch(wasm)
-        .then((response) => response.arrayBuffer())
-        .then((bytes) => WebAssembly.instantiate(bytes, imports))
-        .then((results) => {
-          const { add, get_timestamp, rand } = results.instance.exports
-          console.log(add(1, 2))
-          console.log('get_timestamp()', get_timestamp())
-          console.log('rand', toUnit32(rand()))
-        })
+      // fetch(wasm)
+      //   .then((response) => response.arrayBuffer())
+      //   .then((bytes) => WebAssembly.instantiate(bytes, imports))
+      //   .then((results) => {
+      //     const { add, get_timestamp, rand } = results.instance.exports
+      //     console.log(add(1, 2))
+      //     console.log('get_timestamp()', get_timestamp())
+      //     console.log('rand', toUnit32(rand()))
+      //   })
 
-      function js_add(num1, num2) {
-        return num1 + num2
+      console.log('---------- js for 処理計測 ----------')
+      const startTimeFor = performance.now()
+      for (let i = 0; i < 100000000; i++) {}
+      const endTimeFor = performance.now()
+      console.log('js forでの1億回ループの経過ミリ秒', endTimeFor - startTimeFor)
+
+      console.log('---------- js while 処理計測 ----------')
+      const startTimeWhile = performance.now()
+      let i = 0
+      while (i < 100000000) {
+        i++
       }
+      const endTimeWhile = performance.now()
+      console.log('js whileでの1億回ループの経過ミリ秒', endTimeWhile - startTimeWhile)
     </script>
+    wasmチェック
   </body>
 </html>
