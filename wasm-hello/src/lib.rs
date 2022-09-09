@@ -29,14 +29,14 @@ pub fn rand() -> u32 {
 }
 
 #[no_mangle]
-pub fn heavy_loop() {
+pub fn heavy_loop(loop_num: u32) {
     let mut i: u32 = 0;
 
     loop {
         i += 1;
-        tarai(i, i+1, i+2);
+        tarai(i + 6, i +2, i);
 
-        if i == 100000000 {
+        if i == loop_num {
             break;
         }
     }

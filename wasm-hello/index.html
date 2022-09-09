@@ -16,19 +16,19 @@
 
       const toUnit32 = (num) => num >>> 0
 
+      // ループ数
+      const loop_num = 1000000
+
       // 竹内関数
       const tarai = (x, y, z) => (x <= y ? y : tarai(tarai(x - 1, y, z), tarai(y - 1, z, x), tarai(z - 1, x, y)))
-
-      // const importObject = { imports: { imported_func: (arg) => console.log(arg) } }
 
       WebAssembly.instantiateStreaming(fetch(wasm), imports).then((results) => {
         console.log('---------- wasm loop 処理計測 ----------')
         const { heavy_loop, heavy_loop_rand } = results.instance.exports
         const startTime = performance.now()
-        // 1億回ループ
-        heavy_loop()
+        heavy_loop(loop_num)
         const endTime = performance.now()
-        console.log('wasm 1億回ループの経過ミリ秒', endTime - startTime)
+        console.log(`wasm ${loop_num}回ループの経過ミリ秒`, endTime - startTime)
       })
 
       // fetch(wasm)
@@ -42,24 +42,22 @@
       //   })
 
       console.log('---------- js loop(for) 処理計測 ----------')
-      let res_for = 0
       const startTimeFor = performance.now()
-      for (let i = 1; i <= 100000000; i++) {
-        tarai(i, i + 1, i + 2)
+      for (let i = 1; i <= loop_num; i++) {
+        tarai(i + 6, i + 2, i)
       }
       const endTimeFor = performance.now()
-      console.log('js forでの1億回ループの経過ミリ秒', endTimeFor - startTimeFor)
+      console.log(`js forでの${loop_num}回ループの経過ミリ秒`, endTimeFor - startTimeFor)
 
       console.log('---------- js loop(while) 処理計測 ----------')
-      let res_while = 0
       const startTimeWhile = performance.now()
-      let i = 1
-      while (i <= 100000000) {
-        tarai(i, i + 1, i + 2)
-        i++
+      let j = 1
+      while (j <= loop_num) {
+        tarai(j + 6, j + 2, j)
+        j++
       }
       const endTimeWhile = performance.now()
-      console.log('js whileでの1億回ループの経過ミリ秒', endTimeWhile - startTimeWhile)
+      console.log(`js whileでの${loop_num}回ループの経過ミリ秒`, endTimeWhile - startTimeWhile)
     </script>
     wasmチェック
   </body>
