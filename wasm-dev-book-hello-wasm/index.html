@@ -22,9 +22,10 @@
         console.log('---------- wasm loop 処理計測 ----------')
         const startTime = performance.now()
         const { heavy_loop } = results.instance.exports
-        heavy_loop()
+        const res = heavy_loop()
         const endTime = performance.now()
         console.log('wasm 10億回ループの経過ミリ秒', endTime - startTime)
+        console.log('res', res)
       })
 
       // fetch(wasm)
