@@ -29,29 +29,24 @@ pub fn rand() -> u32 {
 }
 
 #[no_mangle]
-pub fn heavy_loop() -> u32 {
+pub fn heavy_loop() {
     let mut i: u32 = 0;
 
     loop {
         i += 1;
+        tarai(i, i+1, i+2);
 
-        if i == 1000000000 {
-            return i;
+        if i == 100000000 {
+            break;
         }
     }
 }
 
-#[no_mangle]
-pub fn heavy_loop_rand() -> u32 {
-    let mut i = 0;
-    let mut return_array: [u32; 1000] = [0; 1000];
-
-    loop {
-        return_array[i] = rand();
-        i += 1;
-
-        if i == 1000 {
-            return return_array[1000];
-        }
+fn tarai(x: u32, y: u32, z: u32) -> u32 {
+    if x <= y {
+        y
+    } else {
+        tarai(tarai(x - 1, y, z), tarai(y - 1, z, x), tarai(z - 1, x, y))
     }
 }
+
